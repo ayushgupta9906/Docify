@@ -1,0 +1,42 @@
+Vercel CLI 50.1.6
+Retrieving project…
+Deploying ayushgupta9906s-projects/backend
+Uploading [--------------------] (0.0B/52.3KB)
+Uploading [=======-------------] (19.8KB/52.3KB)
+Uploading [============--------] (31.9KB/52.3KB)
+Uploading [================----] (43.1KB/52.3KB)
+Uploading [====================] (52.3KB/52.3KB)
+Inspect: https://vercel.com/ayushgupta9906s-projects/backend/Ahyh6qy9EexnUzYAioLVMcXjgAcF [3s]
+Production: https://backend-ezswaocgd-ayushgupta9906s-projects.vercel.app [3s]
+https://backend-ezswaocgd-ayushgupta9906s-projects.vercel.appBuilding...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 37 deployment files...
+Building: Restored build cache from previous deployment (C5LDzv6yNnbM7Xd31DCf3wYRnPiu)
+Building: Running "vercel build"
+Building: Vercel CLI 50.4.4
+Building: WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+Building: Installing dependencies...
+Building: up to date in 1s
+Building: 75 packages are looking for funding
+Building: run `npm fund` for details
+Building: Using TypeScript 5.9.3 (local user-provided)
+Building: src/middleware/error.middleware.ts(8,5): error TS6133: 'next' is declared but its value is never read.
+Building: src/routes/upload.ts(50,45): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(34,23): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(114,23): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(192,26): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(270,24): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(9,23): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(44,32): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(82,17): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(82,24): error TS6133: 'req' is declared but its value is never read.
+Building: src/routes/jobs.ts(105,26): error TS7030: Not all code paths return a value.
+Building: Build Completed in /vercel/output [11s]
+Building: Deploying outputs...
+[2K[1A[2K[GProduction: https://backend-ezswaocgd-ayushgupta9906s-projects.vercel.app [25s]
+Completing...
+Aliased: https://backend-one-ashy-30.vercel.app [25s]
+Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings

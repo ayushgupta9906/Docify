@@ -1,0 +1,52 @@
+Vercel CLI 50.1.6
+Retrieving project…
+Deploying ayushgupta9906s-projects/backend
+Uploading [--------------------] (0.0B/3.1MB)
+Uploading [=====---------------] (791.3KB/3.1MB)
+Uploading [==========----------] (1.5MB/3.1MB)
+Uploading [===============-----] (2.3MB/3.1MB)
+Uploading [====================] (3.1MB/3.1MB)
+Inspect: https://vercel.com/ayushgupta9906s-projects/backend/C5LDzv6yNnbM7Xd31DCf3wYRnPiu [13s]
+Production: https://backend-qf8c2frg5-ayushgupta9906s-projects.vercel.app [13s]
+https://backend-qf8c2frg5-ayushgupta9906s-projects.vercel.appBuilding...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Previous build caches not available.
+Building: Downloading 36 deployment files...
+Building: Running "vercel build"
+Building: Vercel CLI 50.4.4
+Building: WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+Building: Installing dependencies...
+Building: npm warn deprecated multer@1.4.5-lts.2: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.
+Building: added 357 packages in 7s
+Building: 75 packages are looking for funding
+Building: run `npm fund` for details
+Building: Using TypeScript 5.9.3 (local user-provided)
+Building: src/server.ts(11,1): error TS2448: Block-scoped variable 'app' used before its declaration.
+Building: src/server.ts(11,1): error TS2454: Variable 'app' is used before being assigned.
+Building: src/server.ts(11,25): error TS6133: 'req' is declared but its value is never read.
+Building: src/server.ts(16,19): error TS2304: Cannot find name 'mongoose'.
+Building: src/server.ts(54,21): error TS6133: 'req' is declared but its value is never read.
+Building: src/middleware/error.middleware.ts(8,5): error TS6133: 'next' is declared but its value is never read.
+Building: src/routes/upload.ts(50,45): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(34,23): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(114,23): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(192,26): error TS7030: Not all code paths return a value.
+Building: src/routes/process.ts(270,24): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(4,1): error TS6133: 'path' is declared but its value is never read.
+Building: src/routes/jobs.ts(10,23): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(45,32): error TS7030: Not all code paths return a value.
+Building: src/routes/jobs.ts(83,24): error TS6133: 'req' is declared but its value is never read.
+Building: src/routes/jobs.ts(106,26): error TS7030: Not all code paths return a value.
+Building: src/routes/batch.ts(7,25): error TS6133: 'req' is declared but its value is never read.
+Building: src/routes/batch.ts(24,32): error TS6133: 'req' is declared but its value is never read.
+Building: src/routes/batch.ts(40,41): error TS6133: 'req' is declared but its value is never read.
+Building: src/services/pdf/compress.service.ts(27,17): error TS6133: 'stdout' is declared but its value is never read.
+Building: Build Completed in /vercel/output [16s]
+Building: Deploying outputs...
+[2K[1A[2K[GProduction: https://backend-qf8c2frg5-ayushgupta9906s-projects.vercel.app [40s]
+Completing...
+Aliased: https://backend-one-ashy-30.vercel.app [40s]
+Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings

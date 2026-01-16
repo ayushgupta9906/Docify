@@ -1,0 +1,354 @@
+import { Router, Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
+import { Job } from '../models/Job.model';
+import { logger } from '../utils/logger';
+import config from '../config';
+import path from 'path';
+
+// Import processing services
+import { mergePDFs } from '../services/pdf/merge.service';
+import { splitPDF } from '../services/pdf/split.service';
+import { compressPDF } from '../services/pdf/compress.service';
+import { rotatePDF } from '../services/pdf/rotate.service';
+
+const router = Router();
+
+// Helper to get input file paths
+function getInputFilePaths(fileIds: string[], tempDir: string): string[] {
+    return fileIds.map((id) => {
+        const pdfPath = path.join(tempDir, `${id}.pdf`);
+        if (require('fs').existsSync(pdfPath)) return pdfPath;
+
+        // Try other extensions
+        const extensions = ['.docx', '.pptx', '.xlsx', '.jpg', '.jpeg', '.png'];
+        for (const ext of extensions) {
+            const filePath = path.join(tempDir, `${id}${ext}`);
+            if (require('fs').existsSync(filePath)) return filePath;
+        }
+
+        throw new Error(`File not found: ${id}`);
+    });
+}
+
+// Merge PDF
+router.post('/merge', async (req: Request, res: Response) => {
+    try {
+        const { fileIds, options } = req.body;
+
+        if (!fileIds || !Array.isArray(fileIds) || fileIds.length < 2) {
+            return res.status(400).json({
+                success: false,
+                error: 'At least 2 files required',
+            });
+        }
+
+        const jobId = uuidv4();
+        const tempDir = path.join(config.UPLOAD_DIR, 'temp');
+        const resultsDir = path.join(config.UPLOAD_DIR, 'results');
+
+        const inputPaths = getInputFilePaths(fileIds, tempDir);
+        const outputPath = path.join(resultsDir, `${jobId}_merged.pdf`);
+
+        // Create job
+        const job = await Job.create({
+            jobId,
+            status: 'pending',
+            tool: 'merge',
+            inputFiles: inputPaths.map((p) => ({
+                filename: path.basename(p),
+                originalName: path.basename(p),
+                path: p,
+                size: require('fs').statSync(p).size,
+                mimeType: 'application/pdf',
+            })),
+            options,
+            progress: 0,
+            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000),
+        });
+
+        // Process in background
+        setImmediate(async () => {
+            try {
+                await job.updateOne({ status: 'processing', progress: 50 });
+
+                await mergePDFs(inputPaths, outputPath);
+
+                const stats = require('fs').statSync(outputPath);
+                await Job.updateOne({ jobId }, {
+                    status: 'completed',
+                    progress: 100,
+                    outputFile: {
+                        filename: path.basename(outputPath),
+                        path: outputPath,
+                        size: stats.size,
+                    },
+                });
+
+                logger.info(`Job ${jobId} completed successfully`);
+            } catch (error: any) {
+                logger.error(`Job ${jobId} failed:`, error);
+                await Job.updateOne({ jobId }, {
+                    status: 'failed',
+                    error: error.message,
+                });
+            }
+        });
+
+        return res.json({
+            success: true,
+            data: {
+                jobId,
+                status: 'pending',
+            },
+        });
+    } catch (error: any) {
+        logger.error('Merge error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Merge failed',
+        });
+    }
+});
+
+// Split PDF
+router.post('/split', async (req: Request, res: Response) => {
+    try {
+        const { fileIds, options } = req.body;
+
+        if (!fileIds || fileIds.length !== 1) {
+            return res.status(400).json({
+                success: false,
+                error: 'Exactly 1 file required',
+            });
+        }
+
+        const jobId = uuidv4();
+        const tempDir = path.join(config.UPLOAD_DIR, 'temp');
+        const resultsDir = path.join(config.UPLOAD_DIR, 'results');
+
+        const inputPath = getInputFilePaths([fileIds[0]], tempDir)[0];
+        const outputPath = path.join(resultsDir, `${jobId}_split.zip`);
+
+        const job = await Job.create({
+            jobId,
+            status: 'pending',
+            tool: 'split',
+            inputFiles: [{
+                filename: path.basename(inputPath),
+                originalName: path.basename(inputPath),
+                path: inputPath,
+                size: require('fs').statSync(inputPath).size,
+                mimeType: 'application/pdf',
+            }],
+            options,
+            progress: 0,
+            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000),
+        });
+
+        setImmediate(async () => {
+            try {
+                await job.updateOne({ status: 'processing', progress: 50 });
+
+                await splitPDF(inputPath, outputPath, options);
+
+                const stats = require('fs').statSync(outputPath);
+                await job.updateOne({
+                    status: 'completed',
+                    progress: 100,
+                    outputFile: {
+                        filename: path.basename(outputPath),
+                        path: outputPath,
+                        size: stats.size,
+                    },
+                });
+
+                logger.info(`Job ${jobId} completed successfully`);
+            } catch (error: any) {
+                logger.error(`Job ${jobId} failed:`, error);
+                await job.updateOne({
+                    status: 'failed',
+                    error: error.message,
+                });
+            }
+        });
+
+        return res.json({
+            success: true,
+            data: {
+                jobId,
+                status: 'pending',
+            },
+        });
+    } catch (error: any) {
+        logger.error('Split error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Split failed',
+        });
+    }
+});
+
+// Compress PDF
+router.post('/compress', async (req: Request, res: Response) => {
+    try {
+        const { fileIds, options } = req.body;
+
+        if (!fileIds || fileIds.length !== 1) {
+            return res.status(400).json({
+                success: false,
+                error: 'Exactly 1 file required',
+            });
+        }
+
+        const jobId = uuidv4();
+        const tempDir = path.join(config.UPLOAD_DIR, 'temp');
+        const resultsDir = path.join(config.UPLOAD_DIR, 'results');
+
+        const inputPath = getInputFilePaths([fileIds[0]], tempDir)[0];
+        const outputPath = path.join(resultsDir, `${jobId}_compressed.pdf`);
+
+        const job = await Job.create({
+            jobId,
+            status: 'pending',
+            tool: 'compress',
+            inputFiles: [{
+                filename: path.basename(inputPath),
+                originalName: path.basename(inputPath),
+                path: inputPath,
+                size: require('fs').statSync(inputPath).size,
+                mimeType: 'application/pdf',
+            }],
+            options,
+            progress: 0,
+            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000),
+        });
+
+        setImmediate(async () => {
+            try {
+                await job.updateOne({ status: 'processing', progress: 50 });
+
+                await compressPDF(inputPath, outputPath, options?.quality || 'medium');
+
+                const stats = require('fs').statSync(outputPath);
+                await job.updateOne({
+                    status: 'completed',
+                    progress: 100,
+                    outputFile: {
+                        filename: path.basename(outputPath),
+                        path: outputPath,
+                        size: stats.size,
+                    },
+                });
+
+                logger.info(`Job ${jobId} completed successfully`);
+            } catch (error: any) {
+                logger.error(`Job ${jobId} failed:`, error);
+                await job.updateOne({
+                    status: 'failed',
+                    error: error.message,
+                });
+            }
+        });
+
+        return res.json({
+            success: true,
+            data: {
+                jobId,
+                status: 'pending',
+            },
+        });
+    } catch (error: any) {
+        logger.error('Compress error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Compression failed',
+        });
+    }
+});
+
+// Rotate PDF
+router.post('/rotate', async (req: Request, res: Response) => {
+    try {
+        const { fileIds, options } = req.body;
+
+        if (!fileIds || fileIds.length !== 1) {
+            return res.status(400).json({
+                success: false,
+                error: 'Exactly 1 file required',
+            });
+        }
+
+        if (!options?.rotation) {
+            return res.status(400).json({
+                success: false,
+                error: 'Rotation angle required',
+            });
+        }
+
+        const jobId = uuidv4();
+        const tempDir = path.join(config.UPLOAD_DIR, 'temp');
+        const resultsDir = path.join(config.UPLOAD_DIR, 'results');
+
+        const inputPath = getInputFilePaths([fileIds[0]], tempDir)[0];
+        const outputPath = path.join(resultsDir, `${jobId}_rotated.pdf`);
+
+        const job = await Job.create({
+            jobId,
+            status: 'pending',
+            tool: 'rotate',
+            inputFiles: [{
+                filename: path.basename(inputPath),
+                originalName: path.basename(inputPath),
+                path: inputPath,
+                size: require('fs').statSync(inputPath).size,
+                mimeType: 'application/pdf',
+            }],
+            options,
+            progress: 0,
+            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000),
+        });
+
+        setImmediate(async () => {
+            try {
+                await job.updateOne({ status: 'processing', progress: 50 });
+
+                await rotatePDF(inputPath, outputPath, options.rotation, options.pages);
+
+                const stats = require('fs').statSync(outputPath);
+                await job.updateOne({
+                    status: 'completed',
+                    progress: 100,
+                    outputFile: {
+                        filename: path.basename(outputPath),
+                        path: outputPath,
+                        size: stats.size,
+                    },
+                });
+
+                logger.info(`Job ${jobId} completed successfully`);
+            } catch (error: any) {
+                logger.error(`Job ${jobId} failed:`, error);
+                await job.updateOne({
+                    status: 'failed',
+                    error: error.message,
+                });
+            }
+        });
+
+        return res.json({
+            success: true,
+            data: {
+                jobId,
+                status: 'pending',
+            },
+        });
+    } catch (error: any) {
+        logger.error('Rotate error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Rotation failed',
+        });
+    }
+});
+
+export default router;

@@ -1,0 +1,30 @@
+Vercel CLI 50.1.6
+Retrieving project…
+Deploying ayushgupta9906s-projects/docify-app-frontend
+Uploading [--------------------] (0.0B/9.9KB)
+Uploading [====================] (9.9KB/9.9KB)
+Inspect: https://vercel.com/ayushgupta9906s-projects/docify-app-frontend/7ihHeVFTkn3hDExEB995kzC4dRLh [3s]
+Production: https://docify-app-frontend-1jc52j5h8-ayushgupta9906s-projects.vercel.app [3s]
+https://docify-app-frontend-1jc52j5h8-ayushgupta9906s-projects.vercel.appBuilding...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Previous build caches not available.
+Building: Downloading 79 deployment files...
+Building: Warning: Detected "engines": { "node": ">=18.0.0" } in your `package.json` that will automatically upgrade when a new major Node.js Version is released. Learn More: https://vercel.link/node-version
+Building: Running "vercel build"
+Building: Vercel CLI 50.4.4
+Building: Warning: Detected "engines": { "node": ">=18.0.0" } in your `package.json` that will automatically upgrade when a new major Node.js Version is released. Learn More: https://vercel.link/node-version
+Building: Installing dependencies...
+Building: added 393 packages in 14s
+Building: 154 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 15.5.9
+Building: Running "npm run vercel-build"
+Building: > docify@1.0.0 vercel-build
+Building: > next build
+Building: Attention: Next.js now collects completely anonymous telemetry regarding usage.
+Building: This information is used to shape Next.js' roadmap and prioritize features.
+Building: You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+Building: https://nextjs.org/telemetry
