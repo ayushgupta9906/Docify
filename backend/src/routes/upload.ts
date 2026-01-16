@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import config from '../config';
 import { logger } from '../utils/logger';
@@ -8,6 +9,11 @@ import { logger } from '../utils/logger';
 const router = Router();
 
 // Configure multer
+const tempDir = path.join(config.UPLOAD_DIR, 'temp');
+if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => {
         cb(null, path.join(config.UPLOAD_DIR, 'temp'));

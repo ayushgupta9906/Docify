@@ -1,0 +1,28 @@
+Vercel CLI 50.1.6
+Retrieving project…
+Deploying ayushgupta9906s-projects/backend
+Uploading [--------------------] (0.0B/2.6KB)
+Uploading [====================] (2.6KB/2.6KB)
+Inspect: https://vercel.com/ayushgupta9906s-projects/backend/47Fi1ZR1TT67w5xZPP9HxHTBqPCE [2s]
+Production: https://backend-1gd91sqsm-ayushgupta9906s-projects.vercel.app [2s]
+https://backend-1gd91sqsm-ayushgupta9906s-projects.vercel.appBuilding...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 34 deployment files...
+Building: Restored build cache from previous deployment (9rd9KFwg6r4kR9nCug4DJMw7YgqL)
+Building: Running "vercel build"
+Building: Vercel CLI 50.4.4
+Building: WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+Building: Installing dependencies...
+Building: up to date in 902ms
+Building: 75 packages are looking for funding
+Building: run `npm fund` for details
+Building: Using TypeScript 5.9.3 (local user-provided)
+Building: Build Completed in /vercel/output [10s]
+Building: Deploying outputs...
+[2K[1A[2K[GProduction: https://backend-1gd91sqsm-ayushgupta9906s-projects.vercel.app [24s]
+Completing...
+Aliased: https://backend-one-ashy-30.vercel.app [24s]
+Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings

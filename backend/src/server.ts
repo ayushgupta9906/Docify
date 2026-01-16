@@ -20,28 +20,39 @@ import { startCleanupCron } from './services/storage/cleanup.service';
 const app = express();
 
 // Middleware
+const allowedOrigins = config.FRONTEND_URL.split(',');
 app.use(cors({
-    origin: config.FRONTEND_URL,
+    origin: (origin, callback) => {
+        // Permit requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Create upload directories (only if not on Vercel)
-if (!process.env.VERCEL) {
-    const uploadDirs = [
-        path.join(config.UPLOAD_DIR, 'temp'),
-        path.join(config.UPLOAD_DIR, 'results'),
-    ];
+// Create upload directories
+const uploadDirs = [
+    path.join(config.UPLOAD_DIR, 'temp'),
+    path.join(config.UPLOAD_DIR, 'results'),
+];
 
-    uploadDirs.forEach((dir) => {
-        if (!fs.existsSync(dir)) {
+uploadDirs.forEach((dir) => {
+    if (!fs.existsSync(dir)) {
+        try {
             fs.mkdirSync(dir, { recursive: true });
             logger.info(`Created directory: ${dir}`);
+        } catch (err) {
+            logger.error(`Failed to create directory ${dir}:`, err);
         }
-    });
-}
+    }
+});
 
 // Health check
 app.get('/', (_req, res) => {
