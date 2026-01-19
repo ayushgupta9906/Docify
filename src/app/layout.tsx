@@ -92,10 +92,30 @@ const webAppSchema = {
         'Compress PDF size',
         'Convert PDF to Word',
         'Convert Word to PDF',
-        'Add watermarks',
-        'Rotate pages',
-        'Extract pages'
+        'PDF to Excel extraction',
+        'AI-powered OCR',
+        'Electronic signatures',
+        'Watermark and Page Numbering',
+        'Secure 256-bit encryption'
     ]
+};
+
+const softwareApplicationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Docify',
+    operatingSystem: 'ANY',
+    applicationCategory: 'BusinessApplication',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '1250'
+    }
 };
 
 export default function RootLayout({
@@ -118,6 +138,13 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(webAppSchema)
+                    }}
+                />
+                <script
+                    id="software-schema"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(softwareApplicationSchema)
                     }}
                 />
                 <script

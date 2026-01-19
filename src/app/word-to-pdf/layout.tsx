@@ -1,33 +1,26 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: 'Convert Word to PDF Online - Free DOCX to PDF',
-    description: 'Convert Microsoft Word documents to PDF for free. Professional DOCX to PDF converter that works on any device.',
-    keywords: ['Word to PDF', 'convert DOCX to PDF', 'Word to PDF converter', 'online DOCX to PDF'],
+    title: 'Word to PDF Converter Online - Convert DOCX to PDF Free',
+    description: 'Convert Microsoft Word documents to professional PDF files for free. Our online Word to PDF converter ensures high-fidelity results, preserving all fonts and layouts. Fast and secure.',
+    keywords: [
+        'Word to PDF converter', 'convert DOCX to PDF', 'convert Word to PDF online',
+        'free Word to PDF', 'Word to PDF online free', 'best Word to PDF tool'
+    ],
     openGraph: {
-        title: 'Word to PDF Online - Free Conversion',
-        description: 'Convert your Word documents (DOCX) to PDF for free.',
-        type: 'website'
-    }
-};
-
-const wordToPdfSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Word to PDF Converter',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'All',
-    offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
+        title: 'Word to PDF Converter Online Free - Docify',
+        description: 'Easily convert your Microsoft Word documents into professional PDF files for free. Secure, fast, and high-quality.',
+        type: 'website',
+        images: [{
+            url: '/og-word-to-pdf.png',
+            width: 1200,
+            height: 630,
+            alt: 'Word to PDF Converter - Docify'
+        }]
     },
-    featureList: [
-        'Convert DOCX to PDF',
-        'High quality PDF output',
-        'Works on all browsers'
-    ]
+    alternates: {
+        canonical: '/word-to-pdf'
+    }
 };
 
 export default function WordToPDFLayout({
@@ -35,16 +28,5 @@ export default function WordToPDFLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <Script
-                id="word-to-pdf-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(wordToPdfSchema)
-                }}
-            />
-            {children}
-        </>
-    );
+    return <>{children}</>;
 }

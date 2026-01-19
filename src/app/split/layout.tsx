@@ -1,36 +1,26 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: 'Split PDF Online - Extract Pages from PDF',
-    description: 'Split a PDF file into multiple documents or extract specific pages for free. Simple, fast, and secure online PDF splitter.',
-    keywords: ['split PDF', 'extract PDF pages', 'PDF splitter', 'separate PDF pages', 'cut PDF'],
+    title: 'Split PDF Online Free - Extract PDF Pages Instantly',
+    description: 'Split PDF files online for free. Extract specific pages, split into fixed ranges, or separate every page into a new PDF. Fast, secure, and no signup required.',
+    keywords: [
+        'split PDF online', 'extract PDF pages', 'separate PDF pages', 'PDF splitter free',
+        'split PDF by range', 'extract pages from PDF online', 'online PDF separator'
+    ],
     openGraph: {
-        title: 'Split PDF Online - Free PDF Splitter',
-        description: 'Split PDF documents or extract specific pages online for free.',
-        type: 'website'
+        title: 'Split PDF Online Free - Docify',
+        description: 'Easily split and extract pages from your PDF files online for free. Flexible splitting options and secure processing.',
+        type: 'website',
+        images: [{
+            url: '/og-split.png',
+            width: 1200,
+            height: 630,
+            alt: 'Split PDF Online - Docify'
+        }]
     },
     alternates: {
         canonical: '/split'
     }
-};
-
-const splitSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Split PDF Online',
-    applicationCategory: 'UtilitiesApplication',
-    operatingSystem: 'All',
-    offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
-    },
-    featureList: [
-        'Extract specific PDF pages',
-        'Split PDF into multiple files',
-        'Visual page selection'
-    ]
 };
 
 export default function SplitLayout({
@@ -38,16 +28,5 @@ export default function SplitLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <Script
-                id="split-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(splitSchema)
-                }}
-            />
-            {children}
-        </>
-    );
+    return <>{children}</>;
 }

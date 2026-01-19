@@ -27,12 +27,24 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Solutions */}
+                    <div>
+                        <h3 className="font-semibold text-sm mb-4 text-gray-700 dark:text-gray-300">Industry Solutions</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li><Link href="/solutions/legal-pdf-to-word" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Legal PDF Converter</Link></li>
+                            <li><Link href="/solutions/academic-pdf-merger" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Academic Merger</Link></li>
+                            <li><Link href="/solutions/real-estate-document-splitter" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Real Estate Splitter</Link></li>
+                            <li><Link href="/solutions/hr-secure-pdf-converter" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">HR Secure PDF</Link></li>
+                            <li><Link href="/solutions/government-portal-pdf-compressor" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Portal Compressor</Link></li>
+                        </ul>
+                    </div>
+
                     {/* Resources */}
                     <div>
                         <h3 className="font-semibold text-sm mb-4 text-gray-700 dark:text-gray-300">Resources</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><Link href="/api-docs" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">API Documentation</Link></li>
-                            <li><Link href="/history" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Processing History</Link></li>
+                            <li><Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">About Us</Link></li>
+                            <li><Link href="/security" className="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)]">Security & Privacy</Link></li>
                         </ul>
                     </div>
 

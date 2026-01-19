@@ -9,6 +9,10 @@ import { api } from '@/lib/api';
 import { motion } from 'framer-motion';
 import type { JobStatus } from '@/types';
 
+import Breadcrumbs from '@/components/Breadcrumbs';
+import AuthorCard from '@/components/AuthorCard';
+import { AUTHORS } from '@/lib/authors';
+
 export default function WordToPDFPage() {
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
@@ -86,6 +90,7 @@ export default function WordToPDFPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
             <div className="max-w-4xl mx-auto">
+                <Breadcrumbs items={[{ label: 'Word to PDF', href: '/word-to-pdf' }]} />
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -166,6 +171,90 @@ export default function WordToPDFPage() {
                         )}
                     </div>
                 )}
+                {/* High Depth SEO Content */}
+                <div className="mt-20 space-y-16">
+                    {/* How to Section (Featured Snippet) */}
+                    <section>
+                        <h2 className="text-3xl font-bold mb-6">How to Convert Word to PDF Online with Pro Quality</h2>
+                        <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
+                            <p>
+                                Creating a professional PDF from your Microsoft Word documents shouldn't sacrifice your styling, margins, or font choices. Docify's conversion engine ensures that every bullet point, table, and image placement is preserved with pixel-perfect accuracy.
+                            </p>
+                            <div className="grid md:grid-cols-2 gap-8 my-8">
+                                <div className="card p-6 border-l-4 border-blue-500">
+                                    <h4 className="font-bold mb-2">High-Fidelity Rendering:</h4>
+                                    <ul className="text-sm space-y-2">
+                                        <li><strong>Font Embedding:</strong> We ensure that your chosen fonts are embedded correctly for universal viewing.</li>
+                                        <li><strong>Hyperlink Support:</strong> All internal and external links in your Word file remain clickable in the PDF.</li>
+                                        <li><strong>Vector Preservation:</strong> Graphs and charts are kept in vector format for infinite scalability.</li>
+                                    </ul>
+                                </div>
+                                <div className="card p-6 border-l-4 border-indigo-500">
+                                    <h4 className="font-bold mb-2">Instant Conversion Steps:</h4>
+                                    <ol className="text-sm space-y-2">
+                                        <li>Select your .doc or .docx file and upload it to our secure server.</li>
+                                        <li>Our high-speed engine converts your document into a professional PDF.</li>
+                                        <li>Download your file and share it with confidence.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Use Cases Section */}
+                    <section>
+                        <h2 className="text-2xl font-bold mb-6">Why Convert Word to PDF?</h2>
+                        <div className="grid sm:grid-cols-3 gap-6">
+                            <div className="p-4 border dark:border-gray-800 rounded-xl">
+                                <h4 className="font-bold mb-2 text-blue-600">Secure Distribution</h4>
+                                <p className="text-xs text-gray-500">Lock your document's formatting so it looks the same on every device, from mobile to desktop.</p>
+                            </div>
+                            <div className="p-4 border dark:border-gray-800 rounded-xl">
+                                <h4 className="font-bold mb-2 text-blue-600">Professional Printing</h4>
+                                <p className="text-xs text-gray-500">Ensure your brochures, resumes, and reports are print-ready with embedded fonts and high-res images.</p>
+                            </div>
+                            <div className="p-4 border dark:border-gray-800 rounded-xl">
+                                <h4 className="font-bold mb-2 text-blue-600">Legal Standard</h4>
+                                <p className="text-xs text-gray-500">PDF is the global standard for legal and official documents, ensuring long-term readability and archiving.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* FAQ Section */}
+                    <section>
+                        <h2 className="text-3xl font-bold mb-8 text-center">Word to PDF FAQ</h2>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {[
+                                {
+                                    q: "Will my margins and padding change?",
+                                    a: "No. Our converter respects the exact margin and layout settings defined in your Word document."
+                                },
+                                {
+                                    q: "Can I convert large Word files?",
+                                    a: "Yes, we support files up to 100MB, which is usually enough for even the most image-heavy reports or books."
+                                },
+                                {
+                                    q: "Is it safe to upload confidential files?",
+                                    a: "Absolutely. We use 256-bit SSL encryption for the transfer and delete all files automatically after 30 minutes."
+                                },
+                                {
+                                    q: "Do I need Adobe Acrobat?",
+                                    a: "No. Our online tool provides professional-grade PDF conversion directly in your browser without any extra software."
+                                }
+                            ].map((faq, i) => (
+                                <div key={i} className="card p-6">
+                                    <h4 className="font-bold mb-2">{faq.q}</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">{faq.a}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+
+                <div className="mt-20 border-t pt-12">
+                    <h3 className="text-xl font-bold mb-6 text-center">About the Author</h3>
+                    <AuthorCard author={AUTHORS['pdf-specialist']} />
+                </div>
             </div>
         </div>
     );

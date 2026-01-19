@@ -1,36 +1,26 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: 'Merge PDF Online - Combine Multiple PDFs into One',
-    description: 'Merge and combine multiple PDF files into one single document for free. Fast, secure, and easy to use. No signup required.',
-    keywords: ['merge PDF', 'combine PDF', 'join PDF', 'PDF merger', 'online PDF joiner'],
+    title: 'Merge PDF Online Free - Combine PDF Files Instantly',
+    description: 'Merge multiple PDF files into one document in seconds. Use our free online PDF merger to combine, reorder, and join PDFs with 256-bit encryption. No signup required.',
+    keywords: [
+        'merge PDF online', 'combine PDF files', 'join PDF free', 'PDF merger free',
+        'merge PDF documents', 'combine multiple PDFs', 'online PDF joiner'
+    ],
     openGraph: {
-        title: 'Merge PDF Online - Free PDF Merger',
-        description: 'Combine multiple PDF files into one single document for free.',
-        type: 'website'
+        title: 'Merge PDF Online Free - Docify',
+        description: 'Combine and join PDF files easily online for free. Fast, secure, and professional merging tool.',
+        type: 'website',
+        images: [{
+            url: '/og-merge.png',
+            width: 1200,
+            height: 630,
+            alt: 'Merge PDF Online - Docify'
+        }]
     },
     alternates: {
         canonical: '/merge'
     }
-};
-
-const mergeSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Merge PDF Online',
-    applicationCategory: 'UtilitiesApplication',
-    operatingSystem: 'All',
-    offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
-    },
-    featureList: [
-        'Merge multiple PDF files',
-        'Reorder pages before merging',
-        'Secure file processing'
-    ]
 };
 
 export default function MergeLayout({
@@ -38,16 +28,5 @@ export default function MergeLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <Script
-                id="merge-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(mergeSchema)
-                }}
-            />
-            {children}
-        </>
-    );
+    return <>{children}</>;
 }

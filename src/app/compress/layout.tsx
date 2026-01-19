@@ -1,36 +1,26 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: 'Compress PDF Online - Reduce PDF File Size',
-    description: 'Compress PDF files online for free. Reduce PDF file size while maintaining quality. Fast, secure, and easy to use. No signup required.',
-    keywords: ['compress PDF', 'reduce PDF size', 'PDF compressor', 'shrink PDF', 'make PDF smaller'],
+    title: 'Compress PDF Online Free - Reduce PDF File Size',
+    description: 'Compress PDF files online for free. Reduce PDF file size while maintaining maximum quality. Choose between low, medium, and high compression levels. No signup required.',
+    keywords: [
+        'compress PDF online', 'reduce PDF size', 'shrink PDF free', 'PDF compressor',
+        'minify PDF online', 'compress PDF without losing quality', 'online PDF optimizer'
+    ],
     openGraph: {
-        title: 'Compress PDF Online - Free PDF Compressor',
-        description: 'Reduce PDF file size online while maintaining quality.',
-        type: 'website'
+        title: 'Compress PDF Online Free - Docify',
+        description: 'Optimize and shrink your PDF files easily online for free. Fast, secure, and preserves quality.',
+        type: 'website',
+        images: [{
+            url: '/og-compress.png',
+            width: 1200,
+            height: 630,
+            alt: 'Compress PDF Online - Docify'
+        }]
     },
     alternates: {
         canonical: '/compress'
     }
-};
-
-const compressSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Compress PDF Online',
-    applicationCategory: 'UtilitiesApplication',
-    operatingSystem: 'All',
-    offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
-    },
-    featureList: [
-        'Reduce PDF file size',
-        'Maintain high quality',
-        'Multiple compression levels'
-    ]
 };
 
 export default function CompressLayout({
@@ -38,16 +28,5 @@ export default function CompressLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <Script
-                id="compress-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(compressSchema)
-                }}
-            />
-            {children}
-        </>
-    );
+    return <>{children}</>;
 }

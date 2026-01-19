@@ -1,13 +1,25 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Convert Images to PDF Online - Free Image Converter',
-    description: 'Convert multiple image formats (JPG, PNG, TIFF) to PDF for free. Professional image to PDF converter online.',
-    keywords: ['Image to PDF', 'PNG to PDF', 'convert images to PDF', 'online image converter'],
+    title: 'Image to PDF Converter Online - JPG/PNG to PDF Free',
+    description: 'Convert JPG, PNG, and other images into a professional PDF document for free. Our online image to PDF converter is fast, secure, and preserves image quality. No signup required.',
+    keywords: [
+        'Image to PDF converter', 'JPG to PDF', 'PNG to PDF', 'convert images to PDF',
+        'free Image to PDF', 'online Image to PDF free', 'batch image to PDF'
+    ],
     openGraph: {
-        title: 'Image to PDF Online - Free Conversion',
-        description: 'Convert your images (JPG, PNG, TIFF) to professional PDF documents for free.',
-        type: 'website'
+        title: 'Image to PDF Converter Online Free - Docify',
+        description: 'Easily convert multiple images into a professional PDF file for free. Fast, secure, and preserves high quality.',
+        type: 'website',
+        images: [{
+            url: '/og-image-to-pdf.png',
+            width: 1200,
+            height: 630,
+            alt: 'Image to PDF Converter - Docify'
+        }]
+    },
+    alternates: {
+        canonical: '/image-to-pdf'
     }
 };
 

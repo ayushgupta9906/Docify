@@ -1,33 +1,26 @@
 import { Metadata } from 'next';
-import Script from 'next/script';
 
 export const metadata: Metadata = {
-    title: 'Convert PDF to Word Online - Free PDF to DOCX',
-    description: 'Convert PDF files to editable Word documents for free. Accurate PDF to Word conversion with formatting preserved.',
-    keywords: ['PDF to Word', 'convert PDF to DOCX', 'PDF to Word converter', 'editable Word from PDF'],
+    title: 'PDF to Word Converter Online - Convert PDF to DOCX Free',
+    description: 'Convert PDF files to editable Microsoft Word documents for free. Our online PDF to Word converter preserves formatting, layouts, and tables. No registration required.',
+    keywords: [
+        'PDF to Word converter', 'convert PDF to Word online', 'PDF to DOCX', 'free PDF to Word',
+        'convert PDF to editable Word', 'PDF to Word online free', 'best PDF to Word'
+    ],
     openGraph: {
-        title: 'PDF to Word Online - Free Conversion',
-        description: 'Convert your PDF files to editable Word documents for free.',
-        type: 'website'
-    }
-};
-
-const pdfToWordSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'PDF to Word Converter',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'All',
-    offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD'
+        title: 'PDF to Word Converter Online Free - Docify',
+        description: 'Easily convert your PDF files into editable Microsoft Word documents for free. Accurate, fast, and secure.',
+        type: 'website',
+        images: [{
+            url: '/og-pdf-to-word.png',
+            width: 1200,
+            height: 630,
+            alt: 'PDF to Word Converter - Docify'
+        }]
     },
-    featureList: [
-        'Convert PDF to DOCX',
-        'Preserve document formatting',
-        'Fast and safe conversion'
-    ]
+    alternates: {
+        canonical: '/pdf-to-word'
+    }
 };
 
 export default function PDFToWordLayout({
@@ -35,16 +28,5 @@ export default function PDFToWordLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <>
-            <Script
-                id="pdf-to-word-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(pdfToWordSchema)
-                }}
-            />
-            {children}
-        </>
-    );
+    return <>{children}</>;
 }

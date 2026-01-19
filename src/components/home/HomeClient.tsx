@@ -122,6 +122,76 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* How it Works - Featured Snippet Target */}
+            <section className="py-20 px-4">
+                <div className="container-main max-w-4xl mx-auto">
+                    <h2 className="text-3xl font-bold mb-12 text-center underline decoration-[var(--primary)] decoration-4 underline-offset-8">
+                        How to Use Docify Tools in 3 Simple Steps
+                    </h2>
+                    <div className="grid md:grid-cols-3 gap-12">
+                        {[
+                            {
+                                step: "01",
+                                title: "Upload Files",
+                                desc: "Select your PDF or document from your computer, Google Drive, or Dropbox. We support batches up to 10 files."
+                            },
+                            {
+                                step: "02",
+                                title: "Adjust Settings",
+                                desc: "Customize your output. Reorder pages, choose compression levels, or select target languages for AI translation."
+                            },
+                            {
+                                step: "03",
+                                title: "Download Result",
+                                desc: "Our high-speed engine processes your request in seconds. Download your file or share it instantly."
+                            }
+                        ].map((item, idx) => (
+                            <div key={idx} className="relative group">
+                                <div className="text-6xl font-black text-gray-100 dark:text-gray-800 mb-4 group-hover:text-[var(--primary)]/10 transition-colors">
+                                    {item.step}
+                                </div>
+                                <div className="absolute top-10 left-0">
+                                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm">{item.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Use Cases - Long Tail Keyword Target */}
+            <section className="py-20 px-4 bg-blue-50/30 dark:bg-blue-900/10">
+                <div className="container-main">
+                    <h2 className="text-3xl font-bold mb-16 text-center">Professional Document Solutions for Every Industry</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            {
+                                title: "Legal & Compliance",
+                                desc: "Merge contracts, redact sensitive info, and protect documents with 256-bit AES encryption for legal audits."
+                            },
+                            {
+                                title: "Academic & Research",
+                                desc: "Compress large theses for portal submissions and convert scanned research papers into searchable Word docs using AI OCR."
+                            },
+                            {
+                                title: "Real Estate & Finance",
+                                desc: "Extract data from bank statements into Excel and batch-convert property listings into high-quality PDFs."
+                            },
+                            {
+                                title: "Developers & Tech",
+                                desc: "Convert JSON to XML, YAML to JSON, and Markdown to HTML instantly using our developer-first API tools."
+                            }
+                        ].map((useCase, idx) => (
+                            <div key={idx} className="card p-8 hover:bg-white dark:hover:bg-[var(--muted)] transition-all transform hover:-translate-y-1">
+                                <h3 className="text-lg font-extrabold mb-4 text-[var(--primary)]">{useCase.title}</h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{useCase.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* FAQ Section */}
             <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900/50">
                 <div className="container-main max-w-4xl mx-auto">
