@@ -106,22 +106,21 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <Script
+                <script
                     id="organization-schema"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(organizationSchema)
                     }}
                 />
-                <Script
+                <script
                     id="webapp-schema"
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(webAppSchema)
                     }}
                 />
-                <Script
-                    id="adsense-id"
+                <script
                     async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5082467413786618"
                     crossOrigin="anonymous"

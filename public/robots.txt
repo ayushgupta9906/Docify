@@ -4,9 +4,12 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /test-route/
 
+# Specific allow for Googlebot and AdSense
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 # Sitemap location
 Sitemap: /sitemap.xml
-
-# Crawl-delay
-User-agent: *
-Crawl-delay: 1
