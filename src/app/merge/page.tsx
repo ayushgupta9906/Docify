@@ -65,7 +65,6 @@ export default function MergePDFPage() {
         } catch (err: any) {
             setStatus('failed');
             setError(err.message || 'Failed to merge PDFs');
-            setProcessing(false);
         }
     };
 

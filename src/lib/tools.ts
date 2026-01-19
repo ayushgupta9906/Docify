@@ -31,7 +31,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Convert PDF documents to editable Word files',
         icon: '📄',
         category: 'convert',
-        href: '/convert/pdf-to-word',
+        href: '/pdf-to-word',
         color: 'blue',
     },
     {
@@ -40,25 +40,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Convert Word documents to PDF format',
         icon: '📝',
         category: 'convert',
-        href: '/convert/word-to-pdf',
-        color: 'blue',
-    },
-    {
-        id: 'pdf-to-ppt',
-        title: 'PDF to PowerPoint',
-        description: 'Convert PDF to editable PowerPoint presentations',
-        icon: '📊',
-        category: 'convert',
-        href: '/convert/pdf-to-ppt',
-        color: 'blue',
-    },
-    {
-        id: 'ppt-to-pdf',
-        title: 'PowerPoint to PDF',
-        description: 'Convert presentations to PDF documents',
-        icon: '📽️',
-        category: 'convert',
-        href: '/convert/ppt-to-pdf',
+        href: '/word-to-pdf',
         color: 'blue',
     },
     {
@@ -67,16 +49,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Extract tables from PDF to Excel spreadsheets',
         icon: '📈',
         category: 'convert',
-        href: '/convert/pdf-to-excel',
-        color: 'blue',
-    },
-    {
-        id: 'excel-to-pdf',
-        title: 'Excel to PDF',
-        description: 'Convert spreadsheets to PDF documents',
-        icon: '📉',
-        category: 'convert',
-        href: '/convert/excel-to-pdf',
+        href: '/pdf-to-excel',
         color: 'blue',
     },
     {
@@ -85,7 +58,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Convert PDF pages to high-quality JPG images',
         icon: '🖼️',
         category: 'convert',
-        href: '/convert/pdf-to-jpg',
+        href: '/pdf-to-jpg',
         color: 'blue',
     },
     {
@@ -94,7 +67,16 @@ export const TOOLS: ToolCardData[] = [
         description: 'Convert images to PDF documents',
         icon: '📷',
         category: 'convert',
-        href: '/convert/jpg-to-pdf',
+        href: '/jpg-to-pdf',
+        color: 'blue',
+    },
+    {
+        id: 'pdf-to-xml',
+        title: 'PDF to XML',
+        description: 'Convert PDF content to structured XML data',
+        icon: '🔗',
+        category: 'convert',
+        href: '/pdf-to-xml',
         color: 'blue',
     },
     {
@@ -103,7 +85,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Convert any image format to PDF',
         icon: '🎨',
         category: 'convert',
-        href: '/convert/image-to-pdf',
+        href: '/image-to-pdf',
         color: 'blue',
     },
 
@@ -132,7 +114,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Rearrange pages in your PDF document',
         icon: '🔄',
         category: 'organize',
-        href: '/edit/reorder',
+        href: '/reorder',
         color: 'purple',
     },
     {
@@ -141,7 +123,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Remove unwanted pages from PDF',
         icon: '🗑️',
         category: 'organize',
-        href: '/edit/delete-pages',
+        href: '/delete-pages',
         color: 'purple',
     },
 
@@ -172,7 +154,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Rotate pages in your PDF document',
         icon: '↻',
         category: 'edit',
-        href: '/edit/rotate',
+        href: '/rotate',
         color: 'orange',
     },
     {
@@ -181,7 +163,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Add text or image watermarks to PDF',
         icon: '💧',
         category: 'edit',
-        href: '/edit/watermark',
+        href: '/watermark',
         color: 'orange',
     },
     {
@@ -190,7 +172,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Add page numbers to your PDF',
         icon: '🔢',
         category: 'edit',
-        href: '/edit/page-numbers',
+        href: '/page-numbers',
         color: 'orange',
     },
     {
@@ -210,7 +192,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Add password protection to your PDF',
         icon: '🔒',
         category: 'secure',
-        href: '/secure/protect',
+        href: '/protect',
         color: 'indigo',
     },
     {
@@ -219,7 +201,7 @@ export const TOOLS: ToolCardData[] = [
         description: 'Remove password from PDF documents',
         icon: '🔓',
         category: 'secure',
-        href: '/secure/unlock',
+        href: '/unlock',
         color: 'indigo',
     },
 ];

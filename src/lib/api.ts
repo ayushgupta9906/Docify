@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { ApiResponse, JobResponse, UploadResponse, Job, BatchJob } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-one-ashy-30.vercel.app/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,

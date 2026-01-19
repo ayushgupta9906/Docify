@@ -8,6 +8,7 @@ export type ToolType =
     | 'pdf-to-word'
     | 'pdf-to-ppt'
     | 'pdf-to-excel'
+    | 'pdf-to-xml'
     | 'word-to-pdf'
     | 'ppt-to-pdf'
     | 'excel-to-pdf'

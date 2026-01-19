@@ -13,6 +13,7 @@ import uploadRoutes from './routes/upload';
 import processRoutes from './routes/process';
 import jobRoutes from './routes/jobs';
 import batchRoutes from './routes/batch';
+import adminRoutes from './routes/admin';
 
 // Services
 import { startCleanupCron } from './services/storage/cleanup.service';
@@ -78,6 +79,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/process', processRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/batch', batchRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Error Handling
 app.use(errorHandler);

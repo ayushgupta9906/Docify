@@ -22,6 +22,7 @@ export default function Navigation() {
     }, []);
 
     const navLinks = [
+        { href: '/bulk', label: 'Bulk Convert', icon: Sparkles },
         { href: '/history', label: 'History', icon: History },
         { href: '/api-docs', label: 'API Docs', icon: BookOpen },
     ];

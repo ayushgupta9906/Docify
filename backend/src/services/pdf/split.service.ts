@@ -81,6 +81,15 @@ export async function splitPDF(
             }
         }
 
+        if (splitFiles.length === 1) {
+            // If only one file, don't zip. Rename it to the outputPath (but change extension to .pdf if it was .zip)
+            const singleOutputPath = outputPath.endsWith('.zip') ? outputPath.replace('.zip', '.pdf') : outputPath;
+            await fs.copyFile(splitFiles[0], singleOutputPath);
+            await fs.unlink(splitFiles[0]);
+            logger.info(`PDF split completed: 1 file created (no ZIP)`);
+            return;
+        }
+
         // Create ZIP archive
         await createZipArchive(splitFiles, outputPath);
 
@@ -89,7 +98,7 @@ export async function splitPDF(
             await fs.unlink(file);
         }
 
-        logger.info(`PDF split completed: ${splitFiles.length} files created`);
+        logger.info(`PDF split completed: ${splitFiles.length} files created in ZIP`);
     } catch (error) {
         logger.error('PDF split error:', error);
         throw new Error(`Failed to split PDF: ${(error as Error).message}`);

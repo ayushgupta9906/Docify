@@ -48,12 +48,12 @@ const upload = multer({
     fileFilter,
     limits: {
         fileSize: config.MAX_FILE_SIZE,
-        files: 20,
+        files: 50,
     },
 });
 
 // Upload endpoint
-router.post('/', upload.array('files', 20), async (req: Request, res: Response) => {
+router.post('/', upload.array('files', 50), async (req: Request, res: Response) => {
     try {
         if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
             return res.status(400).json({

@@ -16,6 +16,8 @@ export default function CompressPDFPage() {
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [processing, setProcessing] = useState(false);
+    const [canProcessAgain, setCanProcessAgain] = useState(false);
+    const [processedFileId, setProcessedFileId] = useState<string | null>(null);
 
     const handleCompress = async () => {
         if (files.length !== 1) {
@@ -78,8 +80,55 @@ export default function CompressPDFPage() {
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+
+            // Enable re-processing
+            setCanProcessAgain(true);
+            setProcessedFileId(jobId);
         } catch (err) {
             setError('Failed to download file');
+        }
+    };
+
+    const handleCompressAgain = async () => {
+        if (!processedFileId) return;
+
+        setProcessing(true);
+        setStatus('processing');
+        setProgress(10);
+        setError(null);
+        setCanProcessAgain(false);
+
+        try {
+            setProgress(50);
+            // Use previous output as new input
+            const job = await api.processTool('compress', [processedFileId], { quality });
+
+            setJobId(job.jobId);
+            setProgress(70);
+
+            const pollInterval = setInterval(async () => {
+                try {
+                    const jobData = await api.getJobStatus(job.jobId);
+                    setStatus(jobData.status);
+                    setProgress(jobData.progress || 70);
+
+                    if (jobData.status === 'completed') {
+                        clearInterval(pollInterval);
+                        setProgress(100);
+                    } else if (jobData.status === 'failed') {
+                        clearInterval(pollInterval);
+                        setError(jobData.error || 'Processing failed');
+                    }
+                } catch (err) {
+                    console.error('Polling error:', err);
+                }
+            }, 2000);
+
+            setTimeout(() => clearInterval(pollInterval), 5 * 60 * 1000);
+        } catch (err: any) {
+            setStatus('failed');
+            setError(err.message || 'Failed to compress PDF');
+            setProcessing(false);
         }
     };
 
@@ -126,8 +175,8 @@ export default function CompressPDFPage() {
                                                 key={q}
                                                 onClick={() => setQuality(q)}
                                                 className={`p-4 rounded-lg border-2 transition-all ${quality === q
-                                                        ? 'border-[var(--primary)] bg-[var(--primary)]/10'
-                                                        : 'border-[var(--border)] hover:border-[var(--primary)]/50'
+                                                    ? 'border-[var(--primary)] bg-[var(--primary)]/10'
+                                                    : 'border-[var(--border)] hover:border-[var(--primary)]/50'
                                                     }`}
                                             >
                                                 <div className="font-semibold capitalize">{q}</div>
@@ -171,12 +220,25 @@ export default function CompressPDFPage() {
                         />
 
                         {status === 'completed' && (
-                            <div className="mt-6 text-center">
-                                <DownloadButton
-                                    onClick={handleDownload}
-                                    filename="compressed.pdf"
-                                />
-                            </div>
+                            <>
+                                <div className="mt-6 text-center">
+                                    <DownloadButton
+                                        onClick={handleDownload}
+                                        filename="compressed.pdf"
+                                    />
+                                </div>
+
+                                {canProcessAgain && (
+                                    <div className="mt-4 text-center">
+                                        <button
+                                            onClick={handleCompressAgain}
+                                            className="btn btn-outline px-8 py-3"
+                                        >
+                                            🗜️ Compress More
+                                        </button>
+                                    </div>
+                                )}
+                            </>
                         )}
 
                         {status === 'failed' && (
