@@ -5,6 +5,9 @@ import path from 'path';
 import archiver from 'archiver';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 
+// Disable worker for serverless
+pdfjs.GlobalWorkerOptions.workerSrc = '';
+
 export async function pdfToJPG(inputPath: string, outputZipPath: string): Promise<void> {
     try {
         logger.info(`Converting PDF to JPG: ${inputPath}`);

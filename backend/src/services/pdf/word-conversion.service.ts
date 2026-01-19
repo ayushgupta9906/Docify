@@ -1,6 +1,9 @@
 import { logger } from '../../utils/logger';
 import fs from 'fs/promises';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
+
+// Disable worker for serverless
+pdfjs.GlobalWorkerOptions.workerSrc = '';
 import { Document, Paragraph, TextRun, Packer } from 'docx';
 
 export async function pdfToWord(inputPath: string, outputPath: string): Promise<void> {

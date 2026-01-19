@@ -2,6 +2,9 @@ import { logger } from '../../utils/logger';
 import fs from 'fs/promises';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 
+// Disable worker for serverless environment
+pdfjs.GlobalWorkerOptions.workerSrc = '';
+
 export async function pdfToExcel(
     inputPath: string,
     outputPath: string,

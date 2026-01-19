@@ -3,6 +3,9 @@ import fs from 'fs/promises';
 import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
 
+// Disable worker for serverless
+pdfjs.GlobalWorkerOptions.workerSrc = '';
+
 export async function genericPDFTool(toolName: string, inputPath: string, outputPath: string, options: any = {}): Promise<void> {
     try {
         logger.info(`Running ${toolName} on ${inputPath} with options: ${JSON.stringify(options)}`);
