@@ -18,7 +18,6 @@ export async function pdfToExcel(
             data,
             useSystemFonts: true,
             disableFontFace: true,
-            isEvalDisabled: true,
         });
 
         const pdf = await loadingTask.promise;
