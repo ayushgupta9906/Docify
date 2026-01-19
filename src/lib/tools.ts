@@ -21,6 +21,10 @@ export const TOOL_CATEGORIES = {
         name: 'Secure',
         color: 'from-indigo-500 to-purple-500',
     },
+    ai: {
+        name: 'AI Tools',
+        color: 'from-yellow-400 to-orange-500',
+    },
 };
 
 export const TOOLS: ToolCardData[] = [
@@ -203,5 +207,15 @@ export const TOOLS: ToolCardData[] = [
         category: 'secure',
         href: '/unlock',
         color: 'indigo',
+    },
+    // AI Tools
+    {
+        id: 'smart-convert',
+        title: 'Smart AI Convert',
+        description: 'Convert any file to any format with AI intelligence',
+        icon: '🧠',
+        category: 'ai',
+        href: '/ai-convert',
+        color: 'yellow',
     },
 ];

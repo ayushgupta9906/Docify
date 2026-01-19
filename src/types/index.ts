@@ -23,7 +23,8 @@ export type ToolType =
     | 'reorder'
     | 'delete-pages'
     | 'repair'
-    | 'ocr';
+    | 'ocr'
+    | 'smart-convert';
 
 export interface Job {
     _id?: string;
@@ -130,7 +131,7 @@ export interface ToolCardData {
     title: string;
     description: string;
     icon: string;
-    category: 'convert' | 'organize' | 'optimize' | 'edit' | 'secure';
+    category: 'convert' | 'organize' | 'optimize' | 'edit' | 'secure' | 'ai';
     href: string;
     color: string;
 }
