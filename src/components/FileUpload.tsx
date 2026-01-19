@@ -60,12 +60,21 @@ export default function FileUpload({
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: acceptedFileTypes.reduce((acc, type) => {
-            if (type === '.pdf') acc['application/pdf'] = ['.pdf'];
-            else if (type === '.docx') acc['application/vnd.openxmlformats-officedocument.wordprocessingml.document'] = ['.docx'];
-            else if (type === '.pptx') acc['application/vnd.openxmlformats-officedocument.presentationml.presentation'] = ['.pptx'];
-            else if (type === '.xlsx') acc['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'] = ['.xlsx'];
-            else if (type === '.jpg' || type === '.jpeg') acc['image/jpeg'] = ['.jpg', '.jpeg'];
-            else if (type === '.png') acc['image/png'] = ['.png'];
+            const t = type.toLowerCase();
+            if (t === '.pdf') acc['application/pdf'] = ['.pdf'];
+            else if (t === '.docx') acc['application/vnd.openxmlformats-officedocument.wordprocessingml.document'] = ['.docx'];
+            else if (t === '.pptx') acc['application/vnd.openxmlformats-officedocument.presentationml.presentation'] = ['.pptx'];
+            else if (t === '.xlsx') acc['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'] = ['.xlsx'];
+            else if (t === '.jpg' || t === '.jpeg') acc['image/jpeg'] = ['.jpg', '.jpeg'];
+            else if (t === '.png') acc['image/png'] = ['.png'];
+            else if (t === '.webp') acc['image/webp'] = ['.webp'];
+            else if (t === '.json') acc['application/json'] = ['.json'];
+            else if (t === '.xml') acc['application/xml'] = ['.xml'];
+            else if (t === '.csv') acc['text/csv'] = ['.csv'];
+            else if (t === '.md' || t === '.markdown') acc['text/markdown'] = ['.md', '.markdown'];
+            else if (t === '.yaml' || t === '.yml') acc['text/yaml'] = ['.yaml', '.yml'];
+            else if (t === '.epub') acc['application/epub+zip'] = ['.epub'];
+            else acc['application/octet-stream'] = [t]; // Fallback
             return acc;
         }, {} as Record<string, string[]>),
         maxSize: maxFileSize,

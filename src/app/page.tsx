@@ -5,7 +5,11 @@ import Script from 'next/script';
 export const metadata: Metadata = {
     title: 'Free Online PDF Tools - Edit, Convert & Merge PDFs',
     description: 'Professional PDF tools for free. Fast, secure, and easy to use. No signup required. Merge, split, compress, and convert PDFs online.',
-    keywords: ['free PDF tools', 'online PDF editor', 'merge PDF', 'compress PDF', 'convert PDF'],
+    keywords: [
+        'free PDF tools', 'online PDF editor', 'merge PDF', 'compress PDF', 'convert PDF',
+        'Excel to PDF', 'CSV to JSON', 'Image to PDF', 'OCR online', 'Invoice extractor',
+        'Handwriting to text', 'Doc translator', 'JSON to XML', 'Video to MP3'
+    ],
     openGraph: {
         title: 'Free Online PDF Tools - Docify',
         description: 'Every tool you need to work with PDFs in one place.',

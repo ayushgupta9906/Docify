@@ -1,30 +1,7 @@
 // Job and Processing Types
 export type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
-export type ToolType =
-    | 'merge'
-    | 'split'
-    | 'compress'
-    | 'pdf-to-word'
-    | 'pdf-to-ppt'
-    | 'pdf-to-excel'
-    | 'pdf-to-xml'
-    | 'word-to-pdf'
-    | 'ppt-to-pdf'
-    | 'excel-to-pdf'
-    | 'image-to-pdf'
-    | 'pdf-to-jpg'
-    | 'jpg-to-pdf'
-    | 'rotate'
-    | 'unlock'
-    | 'protect'
-    | 'watermark'
-    | 'page-numbers'
-    | 'reorder'
-    | 'delete-pages'
-    | 'repair'
-    | 'ocr'
-    | 'smart-convert';
+export type ToolType = string;
 
 export interface Job {
     _id?: string;
@@ -125,13 +102,12 @@ export interface JobResponse {
     error?: string;
 }
 
-// UI Types
 export interface ToolCardData {
-    id: ToolType;
+    id: string;
     title: string;
     description: string;
     icon: string;
-    category: 'convert' | 'organize' | 'optimize' | 'edit' | 'secure' | 'ai';
+    category: string;
     href: string;
     color: string;
 }

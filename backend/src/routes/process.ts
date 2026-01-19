@@ -16,24 +16,19 @@ import { pdfToXML } from '../services/pdf/pdf-to-xml.service';
 import { pdfToWord, wordToPDF } from '../services/pdf/word-conversion.service';
 import { pdfToJPG, jpgToPDF } from '../services/pdf/image-conversion.service';
 import { genericPDFTool } from '../services/pdf/generic.service';
-import { smartAIConvert } from '../services/ai/smart-convert.service';
+
+import { processUniversalTask } from '../services/universal/universal.service';
 
 const router = Router();
 
 // Helper to get input file paths
 function getInputFilePaths(fileIds: string[], tempDir: string): string[] {
     return fileIds.map((id) => {
-        // Try exact id matches with various extensions
-        const extensions = ['.pdf', '.docx', '.pptx', '.xlsx', '.jpg', '.jpeg', '.png', '.txt', '.csv', '.json', '.xml', '.md', '.html'];
+        const extensions = ['.pdf', '.docx', '.pptx', '.xlsx', '.jpg', '.jpeg', '.png', '.json', '.xml', '.csv', '.md', '.html', '.txt', '.yaml', '.zip'];
         for (const ext of extensions) {
             const filePath = path.join(tempDir, `${id}${ext}`);
             if (require('fs').existsSync(filePath)) return filePath;
         }
-
-        // Check if the id itself contains an extension and exists
-        const directPath = path.join(tempDir, id);
-        if (require('fs').existsSync(directPath)) return directPath;
-
         throw new Error(`File not found: ${id}`);
     });
 }
@@ -628,58 +623,61 @@ router.post('/jpg-to-pdf', async (req: Request, res: Response) => {
     } catch (error: any) { res.status(500).json({ success: false, error: error.message }); }
 });
 
-// Smart AI Convert
-router.post('/smart-convert', async (req: Request, res: Response) => {
+// Universal Catch-All Handler (handles all tools not specifically handled above)
+router.post('/:tool', async (req: Request, res: Response) => {
     try {
+        const tool = req.params.tool as string;
         const { fileIds, options } = req.body;
 
-        if (!fileIds || fileIds.length !== 1) {
-            return res.status(400).json({
-                success: false,
-                error: 'Exactly 1 file required',
-            });
+        if (!fileIds || !Array.isArray(fileIds) || fileIds.length < 1) {
+            return res.status(400).json({ success: false, error: 'At least 1 file required' });
         }
 
-        const targetFormat = options?.targetFormat || 'markdown';
         const jobId = uuidv4();
-        const inputPath = getInputFilePaths([fileIds[0]], path.join(config.UPLOAD_DIR, 'temp'))[0];
+        const inputPaths = getInputFilePaths(fileIds, path.join(config.UPLOAD_DIR, 'temp'));
 
-        // Determine output extension based on target format
-        let ext = '.md';
-        const format = targetFormat.toLowerCase();
-        if (format.includes('json')) ext = '.json';
-        else if (format.includes('xml')) ext = '.xml';
-        else if (format.includes('csv')) ext = '.csv';
-        else if (format.includes('html')) ext = '.html';
-        else if (format.includes('txt')) ext = '.txt';
-        else if (format.includes('word') || format.includes('docx')) ext = '.docx';
-        else if (format.includes('pdf')) ext = '.pdf';
+        // Determine output extension based on tool or default to .pdf
+        let outExt = '.pdf';
+        if (tool.includes('-to-csv')) outExt = '.csv';
+        else if (tool.includes('-to-json')) outExt = '.json';
+        else if (tool.includes('-to-xml')) outExt = '.xml';
+        else if (tool.includes('-to-webp')) outExt = '.webp';
+        else if (tool.includes('-to-jpg')) outExt = '.jpg';
+        else if (tool.includes('-to-markdown')) outExt = '.md';
+        else if (tool.includes('-to-html')) outExt = '.html';
+        else if (tool.includes('-to-ppt')) outExt = '.pptx';
+        else if (tool.includes('-to-word')) outExt = '.docx';
 
-        const outputPath = path.join(config.UPLOAD_DIR, 'results', `${jobId}_smart_converted${ext}`);
+        const outputPath = path.join(config.UPLOAD_DIR, 'results', `${jobId}_output${outExt}`);
 
         const job = await Job.create({
             jobId,
             status: 'pending',
-            tool: 'smart-convert',
-            inputFiles: [{
-                filename: path.basename(inputPath),
-                originalName: path.basename(inputPath),
-                path: inputPath,
-                size: require('fs').statSync(inputPath).size,
-                mimeType: 'application/octet-stream',
-            }],
+            tool,
+            inputFiles: inputPaths.map(p => ({
+                filename: path.basename(p),
+                originalName: path.basename(p),
+                path: p,
+                size: require('fs').statSync(p).size,
+                mimeType: 'application/octet-stream' // Generic
+            })),
             options,
             progress: 0,
-            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000),
+            expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000)
         });
 
         setImmediate(async () => {
             try {
-                await job.updateOne({ status: 'processing', progress: 5 });
+                await job.updateOne({ status: 'processing', progress: 20 });
 
-                await smartAIConvert(inputPath, outputPath, targetFormat, async (progress) => {
-                    await job.updateOne({ progress: Math.min(99, progress) });
-                });
+                // If it's a PDF specific legacy tool, use genericPDFTool
+                const pdfLegacyTools = ['reorder', 'delete-pages', 'protect', 'unlock', 'watermark', 'page-numbers', 'repair', 'ocr'];
+                if (pdfLegacyTools.includes(tool)) {
+                    await genericPDFTool(tool, inputPaths[0], outputPath, options);
+                } else {
+                    // Use universal dispatcher
+                    await processUniversalTask(tool, inputPaths[0], outputPath, options);
+                }
 
                 const stats = require('fs').statSync(outputPath);
                 await job.updateOne({
@@ -688,71 +686,20 @@ router.post('/smart-convert', async (req: Request, res: Response) => {
                     outputFile: {
                         filename: path.basename(outputPath),
                         path: outputPath,
-                        size: stats.size,
-                    },
+                        size: stats.size
+                    }
                 });
-
-                logger.info(`Smart AI conversion job ${jobId} completed`);
             } catch (error: any) {
-                logger.error(`Smart AI conversion job ${jobId} failed:`, error);
-                await job.updateOne({
-                    status: 'failed',
-                    error: error.message,
-                });
+                logger.error(`Universal job ${jobId} failed:`, error);
+                await job.updateOne({ status: 'failed', error: error.message });
             }
         });
 
-        return res.json({
-            success: true,
-            data: {
-                jobId,
-                status: 'pending',
-            },
-        });
+        return res.json({ success: true, data: { jobId, status: 'pending' } });
     } catch (error: any) {
-        logger.error('Smart AI conversion error:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message || 'AI conversion failed',
-        });
+        logger.error('Universal route error:', error);
+        res.status(500).json({ success: false, error: error.message });
     }
-});
-
-// Generic handler for remaining tools
-const tools = ['pdf-to-ppt', 'ppt-to-pdf', 'excel-to-pdf', 'reorder', 'delete-pages', 'protect', 'unlock', 'watermark', 'page-numbers', 'repair', 'ocr'];
-
-tools.forEach(tool => {
-    router.post(`/${tool}`, async (req: Request, res: Response) => {
-        try {
-            const { fileIds, options } = req.body;
-            if (!fileIds || fileIds.length < 1) return res.status(400).json({ success: false, error: 'At least 1 file required' });
-            const jobId = uuidv4();
-            const inputPaths = getInputFilePaths(fileIds, path.join(config.UPLOAD_DIR, 'temp'));
-            const outputPath = path.join(config.UPLOAD_DIR, 'results', `${jobId}_output${tool === 'pdf-to-ppt' ? '.pptx' : '.pdf'}`);
-
-            const job = await Job.create({
-                jobId,
-                status: 'pending',
-                tool,
-                inputFiles: inputPaths.map(p => ({
-                    filename: path.basename(p),
-                    path: p,
-                    size: require('fs').statSync(p).size,
-                    mimeType: 'application/pdf'
-                })),
-                options, // Ensure options are saved
-                expiresAt: new Date(Date.now() + config.FILE_EXPIRY_MINUTES * 60 * 1000)
-            });
-            setImmediate(async () => {
-                try {
-                    await job.updateOne({ status: 'processing', progress: 50 });
-                    await genericPDFTool(tool, inputPaths[0], outputPath, options);
-                    await job.updateOne({ status: 'completed', progress: 100, outputFile: { filename: path.basename(outputPath), path: outputPath, size: require('fs').statSync(outputPath).size } });
-                } catch (error: any) { await job.updateOne({ status: 'failed', error: error.message }); }
-            });
-            return res.json({ success: true, data: { jobId, status: 'pending' } });
-        } catch (error: any) { res.status(500).json({ success: false, error: error.message }); }
-    });
 });
 
 export default router;
